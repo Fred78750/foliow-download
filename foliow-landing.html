@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foliow — The Intelligent Portfolio Decision Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --cream:    #F7F4EE;
+  --cream2:   #EDE8DF;
+  --cream3:   #E2D9CC;
+  --ink:      #1A1710;
+  --ink2:     #3D3A32;
+  --ink3:     #7A7568;
+  --ink4:     #A8A399;
+  --gold:     #C8820A;
+  --gold-lt:  #F0C96A;
+  --gold-dim: rgba(200,130,10,0.12);
+  --green:    #16803C;
+  --green-lt: rgba(22,128,60,0.1);
+  --red:      #C0392B;
+  --red-lt:   rgba(192,57,43,0.08);
+  --border:   rgba(26,23,16,0.1);
+  --border2:  rgba(26,23,16,0.06);
+  --font-display: 'DM Serif Display', serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+  --font-body:    'Instrument Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ──────────────────────────────────────────────────────── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(247,244,238,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+}
+.header-inner {
+  max-width: 1160px; margin: 0 auto;
+  display: flex; align-items: center; height: 64px; gap: 40px;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 22px; color: var(--ink);
+  letter-spacing: -0.02em; text-decoration: none;
+  display: flex; align-items: baseline; gap: 2px;
+}
+.logo span { color: var(--gold); }
+.logo sup {
+  font-family: var(--font-mono);
+  font-size: 9px; color: var(--ink3);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-left: 6px; font-weight: 500;
+}
+.header-nav {
+  display: flex; gap: 32px; flex: 1;
+}
+.header-nav a {
+  font-size: 13px; font-weight: 500; color: var(--ink3);
+  text-decoration: none; transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+.header-nav a:hover { color: var(--ink); }
+.header-cta {
+  display: flex; align-items: center; gap: 12px;
+}
+.btn-outline {
+  font-family: var(--font-body); font-size: 12px; font-weight: 600;
+  color: var(--ink2); border: 1px solid var(--border);
+  padding: 8px 20px; border-radius: 6px; cursor: pointer;
+  background: none; text-decoration: none;
+  transition: all 0.2s; letter-spacing: 0.02em;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-gold {
+  font-family: var(--font-body); font-size: 12px; font-weight: 700;
+  color: #fff; background: var(--gold);
+  padding: 9px 22px; border-radius: 6px; cursor: pointer;
+  border: none; text-decoration: none;
+  transition: all 0.2s; letter-spacing: 0.03em;
+  box-shadow: 0 2px 12px rgba(200,130,10,0.3);
+}
+.btn-gold:hover {
+  background: #b5720a;
+  box-shadow: 0 4px 20px rgba(200,130,10,0.4);
+  transform: translateY(-1px);
+}
+
+/* ── HERO ────────────────────────────────────────────────────────── */
+.hero {
+  max-width: 1160px; margin: 0 auto;
+  padding: 80px 40px 60px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); background: var(--gold-dim);
+  border: 1px solid rgba(200,130,10,0.25);
+  padding: 5px 14px; border-radius: 100px; margin-bottom: 24px;
+}
+.hero-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(38px,4vw,54px);
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 20px;
+}
+.hero-title em {
+  font-style: italic; color: var(--gold);
+}
+.hero-sub {
+  font-size: 16px; color: var(--ink3); line-height: 1.7;
+  max-width: 440px; margin-bottom: 36px;
+}
+.hero-actions {
+  display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.btn-hero {
+  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  color: #fff; background: var(--ink);
+  padding: 14px 32px; border-radius: 8px; cursor: pointer;
+  border: none; text-decoration: none;
+  transition: all 0.2s; letter-spacing: 0.02em;
+}
+.btn-hero:hover { background: var(--gold); box-shadow: 0 6px 24px rgba(200,130,10,0.35); transform: translateY(-2px); }
+.btn-hero-alt {
+  font-size: 13px; color: var(--ink3); text-decoration: none;
+  display: flex; align-items: center; gap: 6px; font-weight: 500;
+  transition: color 0.2s;
+}
+.btn-hero-alt:hover { color: var(--gold); }
+.hero-trust {
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--ink4); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.trust-item::before { content: '✓'; color: var(--green); font-size: 12px; }
+
+/* ── LIVE DASHBOARD MOCKUP ───────────────────────────────────────── */
+.mockup-wrap {
+  position: relative;
+  animation: floatUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s both;
+}
+@keyframes floatUp {
+  from { opacity:0; transform: translateY(30px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.mockup {
+  background: #1A1710;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 40px 80px rgba(26,23,16,0.35), 0 0 0 1px rgba(255,255,255,0.04);
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+.mockup-bar {
+  background: #242018; padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-dot:nth-child(1) { background: #ff5f57; }
+.mockup-dot:nth-child(2) { background: #ffbd2e; }
+.mockup-dot:nth-child(3) { background: #28c840; }
+.mockup-url {
+  flex: 1; background: rgba(255,255,255,0.06);
+  border-radius: 4px; padding: 4px 12px;
+  font-size: 9px; color: rgba(255,255,255,0.3); margin: 0 8px;
+}
+.mockup-nav {
+  background: #1F1C14; padding: 8px 16px;
+  display: flex; gap: 2px; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.mnav-btn {
+  font-size: 8px; padding: 4px 10px; border-radius: 3px;
+  color: rgba(255,255,255,0.35); cursor: default; letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mnav-btn.active {
+  background: rgba(200,130,10,0.15); color: #C8820A;
+}
+.mockup-kpis {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: rgba(255,255,255,0.04); padding: 1px;
+}
+.mkpi {
+  background: #1A1710; padding: 12px 14px;
+}
+.mkpi-label {
+  font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-bottom: 4px;
+}
+.mkpi-val {
+  font-size: 18px; font-weight: 700; color: #F7F4EE;
+  letter-spacing: -0.02em;
+}
+.mkpi-val.pos { color: #4ade80; }
+.mkpi-val.neg { color: #f87171; }
+.mkpi-sub { font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+.mockup-table { padding: 0; }
+.mrow {
+  display: grid; grid-template-columns: 80px 48px 1fr 70px 60px 64px;
+  align-items: center; padding: 9px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 9px;
+}
+.mrow-header { color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
+.mrow-data { color: rgba(255,255,255,0.7); }
+.mrow-data:hover { background: rgba(255,255,255,0.02); }
+.ticker-name { font-weight: 700; color: #F7F4EE; font-size: 10px; }
+.mtag {
+  font-size: 7px; padding: 2px 5px; border-radius: 2px; font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.mtag-action { background: rgba(37,99,235,0.2); color: #60a5fa; }
+.mtag-etf    { background: rgba(124,58,237,0.2); color: #a78bfa; }
+.sig-badge {
+  font-size: 7px; padding: 2px 7px; border-radius: 2px; font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.sig-hold  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+.sig-buy   { background: rgba(22,128,60,0.25); color: #4ade80; }
+.sig-sell  { background: rgba(192,57,43,0.25); color: #f87171; }
+.sig-sbuy  { background: rgba(22,128,60,0.4); color: #86efac; border: 1px solid rgba(74,222,128,0.4); }
+.ticker-val { font-size: 9px; }
+.ticker-val.pos { color: #4ade80; }
+.ticker-val.neg { color: #f87171; }
+
+/* Floating price update animation */
+.price-flash {
+  animation: priceUp 0.4s ease;
+}
+@keyframes priceUp {
+  0%  { background: rgba(74,222,128,0.15); }
+  100%{ background: transparent; }
+}
+
+/* ── MARQUEE BAND ────────────────────────────────────────────────── */
+.marquee-band {
+  background: var(--ink); padding: 14px 0; overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.marquee-inner {
+  display: flex; width: max-content;
+  animation: marquee 30s linear infinite;
+}
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 32px; white-space: nowrap;
+  font-family: var(--font-mono); font-size: 11px;
+}
+.m-ticker { color: rgba(255,255,255,0.5); letter-spacing: 0.08em; }
+.m-price  { color: #F7F4EE; font-weight: 500; }
+.m-chg.pos { color: #4ade80; }
+.m-chg.neg { color: #f87171; }
+.m-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+
+/* ── FEATURES ────────────────────────────────────────────────────── */
+.section {
+  max-width: 1160px; margin: 0 auto; padding: 90px 40px;
+}
+.section-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(28px,3vw,42px);
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 16px; color: var(--ink3); max-width: 520px; line-height: 1.7;
+}
+.features-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2px; margin-top: 56px; background: var(--border2);
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.feat-card {
+  background: var(--cream); padding: 32px 28px;
+  transition: background 0.2s;
+}
+.feat-card:hover { background: rgba(200,130,10,0.04); }
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--gold-dim); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; margin-bottom: 18px;
+  border: 1px solid rgba(200,130,10,0.2);
+}
+.feat-title {
+  font-family: var(--font-display); font-size: 18px; color: var(--ink);
+  margin-bottom: 10px; letter-spacing: -0.01em;
+}
+.feat-desc { font-size: 13px; color: var(--ink3); line-height: 1.65; }
+.feat-tag {
+  display: inline-block; margin-top: 14px;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--green); background: var(--green-lt);
+  padding: 3px 8px; border-radius: 3px;
+}
+
+/* ── HOW IT WORKS ─────────────────────────────────────────────────── */
+.how-section {
+  background: var(--ink); padding: 90px 0;
+}
+.how-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 40px;
+}
+.how-inner .section-label { color: var(--gold-lt); }
+.how-inner .section-title { color: #F7F4EE; }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 40px; margin-top: 56px;
+}
+.step {
+  position: relative; padding-left: 0;
+}
+.step-num {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.12em; color: var(--gold);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.step-num::after {
+  content: ''; height: 1px; flex: 1;
+  background: rgba(255,255,255,0.08);
+}
+.step-title {
+  font-family: var(--font-display); font-size: 22px; color: #F7F4EE;
+  margin-bottom: 12px; letter-spacing: -0.01em;
+}
+.step-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+.step-code {
+  margin-top: 16px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+  padding: 10px 14px; font-family: var(--font-mono); font-size: 11px;
+  color: var(--gold-lt); letter-spacing: 0.02em;
+}
+
+/* ── PRICING ─────────────────────────────────────────────────────── */
+.pricing-bg {
+  background: var(--cream2); padding: 90px 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.pricing-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 40px;
+  text-align: center;
+}
+.pricing-cards {
+  display: flex; gap: 24px; justify-content: center;
+  margin-top: 56px; flex-wrap: wrap;
+}
+.pricing-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: 16px; padding: 40px 36px;
+  width: 320px; position: relative; text-align: left;
+  transition: box-shadow 0.2s;
+}
+.pricing-card:hover { box-shadow: 0 16px 48px rgba(26,23,16,0.12); }
+.pricing-card.featured {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold), 0 20px 60px rgba(200,130,10,0.15);
+}
+.pricing-best {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: #fff; font-family: var(--font-mono);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 4px 16px; border-radius: 100px;
+  white-space: nowrap;
+}
+.plan-name {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 16px;
+}
+.plan-price {
+  font-family: var(--font-display); font-size: 52px; color: var(--ink);
+  letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px;
+}
+.plan-price sup { font-size: 22px; vertical-align: top; margin-top: 8px; color: var(--gold); }
+.plan-period { font-size: 12px; color: var(--ink4); margin-bottom: 24px; }
+.plan-desc { font-size: 13px; color: var(--ink3); line-height: 1.6; margin-bottom: 28px; }
+.plan-features {
+  list-style: none; display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 32px;
+}
+.plan-features li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--ink2);
+}
+.plan-features li::before {
+  content: '✓'; color: var(--green); font-weight: 700;
+  flex-shrink: 0; margin-top: 1px;
+}
+.plan-features li.muted::before { content: '–'; color: var(--ink4); }
+.plan-features li.muted { color: var(--ink4); }
+.btn-buy {
+  display: block; width: 100%; padding: 14px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  text-align: center; text-decoration: none;
+  border-radius: 8px; cursor: pointer; transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.btn-buy-primary {
+  background: var(--gold); color: #fff; border: none;
+  box-shadow: 0 4px 16px rgba(200,130,10,0.3);
+}
+.btn-buy-primary:hover {
+  background: #b5720a; transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(200,130,10,0.4);
+}
+.btn-buy-secondary {
+  background: none; color: var(--ink); border: 1px solid var(--border);
+}
+.btn-buy-secondary:hover { border-color: var(--gold); color: var(--gold); }
+.pricing-note {
+  margin-top: 32px; font-size: 12px; color: var(--ink4); text-align: center;
+}
+
+/* ── FAQ ─────────────────────────────────────────────────────────── */
+.faq-section { padding: 90px 0; }
+.faq-inner {
+  max-width: 720px; margin: 0 auto; padding: 0 40px;
+}
+.faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 0; }
+.faq-item {
+  border-bottom: 1px solid var(--border); overflow: hidden;
+}
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 0; cursor: pointer; font-weight: 600; font-size: 15px;
+  color: var(--ink); transition: color 0.2s; gap: 16px;
+  list-style: none;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-q .faq-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--cream2); display: flex; align-items: center;
+  justify-content: center; font-size: 14px; flex-shrink: 0;
+  transition: all 0.2s; color: var(--ink3);
+}
+.faq-item.open .faq-icon { background: var(--gold-dim); color: var(--gold); transform: rotate(45deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s;
+  font-size: 14px; color: var(--ink3); line-height: 1.7;
+}
+.faq-item.open .faq-a { max-height: 300px; padding-bottom: 20px; }
+
+/* ── BOTTOM CTA ──────────────────────────────────────────────────── */
+.cta-section {
+  background: var(--ink); padding: 90px 40px; text-align: center;
+}
+.cta-inner { max-width: 600px; margin: 0 auto; }
+.cta-title {
+  font-family: var(--font-display); font-size: clamp(32px,4vw,48px);
+  color: #F7F4EE; letter-spacing: -0.02em; line-height: 1.15;
+  margin-bottom: 20px;
+}
+.cta-title em { font-style: italic; color: var(--gold); }
+.cta-sub { font-size: 15px; color: rgba(255,255,255,0.45); margin-bottom: 40px; line-height: 1.6; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-cta-main {
+  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  background: var(--gold); color: #fff; border: none;
+  padding: 16px 40px; border-radius: 8px; cursor: pointer;
+  text-decoration: none; letter-spacing: 0.04em;
+  box-shadow: 0 4px 24px rgba(200,130,10,0.4);
+  transition: all 0.2s;
+}
+.btn-cta-main:hover { background: #b5720a; transform: translateY(-2px); }
+.btn-cta-ghost {
+  font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none;
+  padding: 16px 24px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+  font-family: var(--font-body); transition: all 0.2s;
+}
+.btn-cta-ghost:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+/* ── FOOTER ──────────────────────────────────────────────────────── */
+.footer {
+  background: #0F0D09; padding: 48px 40px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-inner {
+  max-width: 1160px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px;
+}
+.footer-brand .logo { color: rgba(255,255,255,0.6); }
+.footer-brand .logo span { color: var(--gold); opacity: 0.7; }
+.footer-tagline { font-size: 12px; color: rgba(255,255,255,0.25); margin-top: 8px; max-width: 260px; line-height: 1.6; }
+.footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
+.footer-col { display: flex; flex-direction: column; gap: 10px; }
+.footer-col-title { font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 4px; }
+.footer-col a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+.footer-col a:hover { color: rgba(255,255,255,0.8); }
+.footer-bottom {
+  max-width: 1160px; margin: 32px auto 0; padding: 24px 40px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); }
+.disclaimer-box {
+  font-size: 10px; color: rgba(255,255,255,0.2); line-height: 1.6;
+  max-width: 700px; text-align: center; margin: 0 auto;
+  padding-top: 16px;
+}
+
+/* ── PLAN LOCK BADGE ──────────────────────────────────────────── */
+.lock-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  font-family: var(--font-mono); font-size:8px; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--ink4); background:var(--cream3);
+  padding:2px 7px; border-radius:2px; margin-left:6px;
+  vertical-align:middle;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+  .features-grid, .steps-grid { grid-template-columns: 1fr; }
+  .header-nav { display: none; }
+  .section, .how-inner, .faq-inner { padding: 60px 24px; }
+  .pricing-cards { flex-direction: column; align-items: center; }
+}
+
+/* ── SCROLL REVEAL ───────────────────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════ -->
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="#">Folio<span>w</span><sup>Beta</sup></a>
+    <nav class="header-nav">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-cta">
+      <a href="#pricing" class="btn-outline">See pricing</a>
+      <a href="#pricing" class="btn-gold">Get Foliow →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══ HERO ════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-left reveal">
+    <div class="hero-badge">Live signals · No cloud · No subscription</div>
+    <h1 class="hero-title">
+      Your portfolio.<br>
+      <em>Intelligently</em><br>
+      managed.
+    </h1>
+    <p class="hero-sub">
+      Foliow is a precision portfolio decision engine — with live prices, RSI signals, 
+      multi-currency P&L and AI-powered advice. Runs entirely on your machine. 
+      No data leaves your computer.
+    </p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-hero">Get Foliow — from €29</a>
+      <a href="#how" class="btn-hero-alt">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        See how it works
+      </a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-item">100% offline</span>
+      <span class="trust-item">Multi-currency</span>
+      <span class="trust-item">FR · EN · ES</span>
+      <span class="trust-item">Single HTML file</span>
+    </div>
+  </div>
+
+  <!-- Live dashboard mockup -->
+  <div class="mockup-wrap">
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot"></div>
+        <div class="mockup-dot"></div>
+        <div class="mockup-dot"></div>
+        <div class="mockup-url">foliow / decision-engine.html</div>
+      </div>
+      <div class="mockup-nav">
+        <div class="mnav-btn active">📊 Dashboard</div>
+        <div class="mnav-btn">📈 Positions</div>
+        <div class="mnav-btn">⚡ Risk</div>
+        <div class="mnav-btn">💡 Suggestions</div>
+      </div>
+      <div class="mockup-kpis">
+        <div class="mkpi">
+          <div class="mkpi-label">Total Value</div>
+          <div class="mkpi-val" id="mkv1">€ 48,320</div>
+          <div class="mkpi-sub">8 positions</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-label">Total P&L</div>
+          <div class="mkpi-val pos" id="mkv2">+€ 3,841</div>
+          <div class="mkpi-sub" style="color:#4ade80;opacity:0.6">+8.63%</div>
+        </div>
+        <div class="mkpi">
+          <div class="mkpi-label">Global Risk</div>
+          <div class="mkpi-val" style="color:#fbbf24">28 / 100</div>
+          <div class="mkpi-sub">Controlled</div>
+        </div>
+      </div>
+      <div class="mockup-table">
+        <div class="mrow mrow-header">
+          <span>Ticker</span><span>Type</span><span>Price (CCY)</span><span>Value €</span><span>P&L %</span><span>Signal</span>
+        </div>
+        <div class="mrow mrow-data" id="mr1">
+          <span class="ticker-name">AAPL</span>
+          <span><span class="mtag mtag-action">Stock</span></span>
+          <span style="color:#F7F4EE">$ 213.42</span>
+          <span class="ticker-val pos">€ 9,842</span>
+          <span class="ticker-val pos">+14.2%</span>
+          <span><span class="sig-badge sig-hold">→ HOLD</span></span>
+        </div>
+        <div class="mrow mrow-data" id="mr2">
+          <span class="ticker-name">CW8.PA</span>
+          <span><span class="mtag mtag-etf">ETF</span></span>
+          <span style="color:#F7F4EE">€ 412.80</span>
+          <span class="ticker-val pos">€ 12,384</span>
+          <span class="ticker-val pos">+22.6%</span>
+          <span><span class="sig-badge sig-sbuy">⬆⬆ STRONG BUY</span></span>
+        </div>
+        <div class="mrow mrow-data" id="mr3">
+          <span class="ticker-name">NVDA</span>
+          <span><span class="mtag mtag-action">Stock</span></span>
+          <span style="color:#F7F4EE">$ 118.55</span>
+          <span class="ticker-val pos">€ 8,102</span>
+          <span class="ticker-val pos">+38.1%</span>
+          <span><span class="sig-badge sig-buy">⬆ BUY</span></span>
+        </div>
+        <div class="mrow mrow-data" id="mr4">
+          <span class="ticker-name">BTC-USD</span>
+          <span><span class="mtag" style="background:rgba(234,88,12,0.2);color:#fb923c">Crypto</span></span>
+          <span style="color:#F7F4EE">$ 87,210</span>
+          <span class="ticker-val neg">€ 6,480</span>
+          <span class="ticker-val neg">-4.3%</span>
+          <span><span class="sig-badge sig-sell">⬇ SELL</span></span>
+        </div>
+      </div>
+    </div>
+    <!-- Floating suggestion bubble -->
+    <div id="suggBubble" style="
+      position:absolute; bottom:-16px; right:-16px;
+      background:#1A1710; border:1px solid rgba(200,130,10,0.3);
+      border-radius:10px; padding:12px 16px; font-family:var(--font-mono);
+      font-size:10px; max-width:220px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+      animation: bubbleIn 0.6s cubic-bezier(0.22,1,0.36,1) 1.2s both;">
+      <div style="color:#fbbf24;font-weight:700;margin-bottom:4px">💡 SUGGESTION</div>
+      <div style="color:rgba(255,255,255,0.6);line-height:1.5">RSI 28 on CW8.PA — consider reinforcing position</div>
+    </div>
+    @keyframes bubbleIn { from{opacity:0;transform:scale(0.8) translateY(12px)} to{opacity:1;transform:scale(1) translateY(0)} }
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══════════════════════════════════════════════════════ -->
+<div class="marquee-band">
+  <div class="marquee-inner">
+    <div class="marquee-item"><span class="m-ticker">AAPL</span><span class="m-price">$213.42</span><span class="m-chg pos">+1.24%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">CW8.PA</span><span class="m-price">€412.80</span><span class="m-chg pos">+0.83%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">NVDA</span><span class="m-price">$118.55</span><span class="m-chg pos">+2.41%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">BTC-USD</span><span class="m-price">$87,210</span><span class="m-chg neg">-1.32%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">MSFT</span><span class="m-price">$415.28</span><span class="m-chg pos">+0.55%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">ASML.AS</span><span class="m-price">€638.10</span><span class="m-chg neg">-0.72%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">ETH-EUR</span><span class="m-price">€1,820</span><span class="m-chg pos">+3.14%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">SP5C.PA</span><span class="m-price">€542.60</span><span class="m-chg pos">+0.91%</span></div>
+    <div class="m-dot"></div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><span class="m-ticker">AAPL</span><span class="m-price">$213.42</span><span class="m-chg pos">+1.24%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">CW8.PA</span><span class="m-price">€412.80</span><span class="m-chg pos">+0.83%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">NVDA</span><span class="m-price">$118.55</span><span class="m-chg pos">+2.41%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">BTC-USD</span><span class="m-price">$87,210</span><span class="m-chg neg">-1.32%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">MSFT</span><span class="m-price">$415.28</span><span class="m-chg pos">+0.55%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">ASML.AS</span><span class="m-price">€638.10</span><span class="m-chg neg">-0.72%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">ETH-EUR</span><span class="m-price">€1,820</span><span class="m-chg pos">+3.14%</span></div>
+    <div class="m-dot"></div>
+    <div class="marquee-item"><span class="m-ticker">SP5C.PA</span><span class="m-price">€542.60</span><span class="m-chg pos">+0.91%</span></div>
+  </div>
+</div>
+
+<!-- ══ FEATURES ════════════════════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="reveal">
+    <div class="section-label">What's inside</div>
+    <h2 class="section-title">Everything a serious<br>investor needs</h2>
+    <p class="section-sub">No SaaS subscription. No cloud. No data harvesting. Just a powerful, private tool that runs entirely on your machine.</p>
+  </div>
+  <div class="features-grid reveal">
+    <div class="feat-card">
+      <div class="feat-icon">📡</div>
+      <div class="feat-title">Live prices, everywhere</div>
+      <div class="feat-desc">Real-time quotes for US stocks, EU equities (.PA, .AS, .DE…), ETFs, ETCs, crypto and structured products. Powered by Yahoo Finance via a local proxy.</div>
+      <div class="feat-tag">20+ markets</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-title">Trading signals</div>
+      <div class="feat-desc">RSI-based signals (STRONG BUY → STRONG SELL) calculated locally. Stop-loss monitoring, SMA20/SMA50 crossover detection, risk scoring 0–100.</div>
+      <div class="feat-tag">No lag, no cloud</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💶</div>
+      <div class="feat-title">Multi-currency P&L</div>
+      <div class="feat-desc">Hold USD, GBP, CHF, BTC, ETH and more — all consolidated in EUR at live exchange rates. PRU entry in local currency or euros.</div>
+      <div class="feat-tag">FX live rates</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-title">AI-powered advice</div>
+      <div class="feat-desc">Connect your Claude API key for a personalized portfolio plan — buy/sell/hold recommendations, rebalancing priorities, risk narrative.</div>
+      <div class="feat-tag">Claude AI</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📜</div>
+      <div class="feat-title">Full trade history</div>
+      <div class="feat-desc">Log every buy and sell with fees. Automatic PRU recalculation on each purchase. Realized P&L tracking per position and cumulative.</div>
+      <div class="feat-tag">Tax-ready</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌍</div>
+      <div class="feat-title">3 languages</div>
+      <div class="feat-desc">Full interface in French, English and Spanish. Switch instantly with one click. All signals, labels, notifications and suggestions adapt automatically.</div>
+      <div class="feat-tag">FR · EN · ES</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ═════════════════════════════════════════════════ -->
+<div class="how-section" id="how">
+  <div class="how-inner">
+    <div class="reveal">
+      <div class="section-label">Setup in minutes</div>
+      <h2 class="section-title" style="color:#F7F4EE">Up and running<br>in 3 steps</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Start the proxy</div>
+        <div class="step-desc">Run one Python command. No installation, no pip dependencies. The local proxy fetches live prices and bypasses CORS — stays running in the background.</div>
+        <div class="step-code">python folio_proxy.py</div>
+      </div>
+      <div class="step reveal" style="transition-delay:0.1s">
+        <div class="step-num">02</div>
+        <div class="step-title">Open the app</div>
+        <div class="step-desc">Open <code style="color:var(--gold-lt)">decision-engine.html</code> in any browser. No server, no internet required. Add your positions manually or import via ISIN list.</div>
+        <div class="step-code">decision-engine.html</div>
+      </div>
+      <div class="step reveal" style="transition-delay:0.2s">
+        <div class="step-num">03</div>
+        <div class="step-title">Get signals</div>
+        <div class="step-desc">Click Refresh. Foliow pulls live prices, computes RSI, SMA20/50 and risk scores, then surfaces actionable signals and AI suggestions across your portfolio.</div>
+        <div class="step-code">↺ Refresh → signals ready</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRICING ══════════════════════════════════════════════════════ -->
+<div class="pricing-bg" id="pricing">
+  <div class="pricing-inner">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center;display:flex">Pricing</div>
+      <h2 class="section-title">One-time payment.<br>Yours forever.</h2>
+      <p class="section-sub" style="margin:0 auto;text-align:center">No monthly fees. No subscription. No account required. Buy once, use forever, on as many computers as you want.</p>
+    </div>
+
+    <!-- Comparison toggle -->
+    <div style="display:flex;gap:3px;background:var(--cream3);border-radius:8px;padding:4px;margin:40px auto 0;width:fit-content" class="reveal">
+      <button onclick="showAnnual(false)" id="btnOnce" style="font-family:var(--font-body);font-size:12px;font-weight:600;padding:8px 20px;border-radius:5px;border:none;cursor:pointer;background:var(--ink);color:#fff;transition:all 0.2s">One-time</button>
+      <button onclick="showAnnual(true)" id="btnAnnual" style="font-family:var(--font-body);font-size:12px;font-weight:600;padding:8px 20px;border-radius:5px;border:none;cursor:pointer;background:none;color:var(--ink3);transition:all 0.2s">Compare plans</button>
+    </div>
+
+    <div class="pricing-cards" style="align-items:stretch">
+
+      <!-- Free -->
+      <div class="pricing-card reveal" style="max-width:280px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;right:0;background:var(--cream3);font-family:var(--font-mono);font-size:8px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink4);padding:5px 12px;border-bottom-left-radius:8px">Free forever</div>
+        <div class="plan-name" style="margin-top:8px">Free</div>
+        <div class="plan-price"><sup style="font-size:16px;color:var(--ink3)">€</sup>0</div>
+        <div class="plan-period">forever · no credit card</div>
+        <div class="plan-desc">Try the core experience. Hits the limits fast — by design.</div>
+        <ul class="plan-features">
+          <li><strong>3 positions max</strong> <span style="font-family:var(--font-mono);font-size:9px;color:var(--red);background:var(--red-lt);padding:1px 6px;border-radius:2px;margin-left:4px">HARD LIMIT</span></li>
+          <li>EUR + USD currencies</li>
+          <li>Live prices — <strong>US stocks only</strong></li>
+          <li class="muted">EU / Crypto / ETC prices — locked</li>
+          <li class="muted"><span style="text-decoration:line-through;opacity:0.5">RSI / signals</span> — locked</li>
+          <li class="muted"><span style="text-decoration:line-through;opacity:0.5">Trade history</span> — locked</li>
+          <li class="muted"><span style="text-decoration:line-through;opacity:0.5">ISIN import</span> — locked</li>
+          <li class="muted"><span style="text-decoration:line-through;opacity:0.5">AI Plan</span> — locked</li>
+        </ul>
+        <a href="YOUR_FREE_DOWNLOAD_LINK" class="btn-buy btn-buy-secondary" style="text-align:center">
+          Download free →
+        </a>
+        <p style="font-size:10px;color:var(--ink4);text-align:center;margin-top:10px">No account · Instant download</p>
+      </div>
+
+      <!-- Starter -->
+      <div class="pricing-card reveal" style="max-width:280px" style="transition-delay:0.1s">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>€</sup>29</div>
+        <div class="plan-period">one-time · lifetime access</div>
+        <div class="plan-desc">For active investors who want live prices and real signals across their full portfolio.</div>
+        <ul class="plan-features">
+          <li><strong>Unlimited positions</strong></li>
+          <li>Live prices — all markets</li>
+          <li>RSI + SMA20/50 signals</li>
+          <li>Multi-currency P&L (EUR/USD/GBP/CHF)</li>
+          <li>Trade history + realized P&L</li>
+          <li>ISIN bulk import</li>
+          <li>3 languages (FR/EN/ES)</li>
+          <li class="muted">AI Plan — needs own API key</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_28EcN59mTfEB7XX8dS1ZS01" class="btn-buy btn-buy-secondary" id="buyStarter">
+          Buy Starter — €29 →
+        </a>
+      </div>
+
+      <!-- Pro — featured -->
+      <div class="pricing-card featured reveal" style="max-width:300px;transition-delay:0.2s">
+        <div class="pricing-best">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>€</sup>59</div>
+        <div class="plan-period">one-time · lifetime access</div>
+        <div class="plan-desc">The complete experience for serious investors — with AI, crypto, and full decision support.</div>
+        <ul class="plan-features">
+          <li>Everything in Starter</li>
+          <li>Crypto & ETC (BTC, ETH, gold…)</li>
+          <li>Structured products & bonds</li>
+          <li><strong>Full AI Plan</strong> — Claude integration</li>
+          <li>Advanced suggestions engine</li>
+          <li>Daily routine & discipline tracking</li>
+          <li>Priority support (30 days)</li>
+          <li>Free updates for 12 months</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_14A9AT8iP641a6551G1ZS02" class="btn-buy btn-buy-primary" id="buyPro">
+          Buy Pro — €59 →
+        </a>
+      </div>
+    </div>
+
+    <!-- Friction banner under Free -->
+    <div class="reveal" style="max-width:640px;margin:32px auto 0;background:rgba(200,130,10,0.08);border:1px solid rgba(200,130,10,0.25);border-radius:10px;padding:18px 24px;display:flex;gap:16px;align-items:center">
+      <div style="font-size:24px;flex-shrink:0">⚡</div>
+      <div>
+        <div style="font-weight:700;font-size:13px;color:var(--ink);margin-bottom:4px">Most free users upgrade within the first session</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.6">When you try to add a 4th position, refresh EU/crypto prices, or view RSI signals — the upgrade prompt appears. Most investors hit these limits in their first session.</div>
+      </div>
+    </div>
+
+    <p class="pricing-note reveal" style="margin-top:24px">
+      🔒 Secure payment via Stripe · Instant download after purchase · 14-day money-back guarantee
+    </p>
+  </div>
+</div>
+
+<!-- ══ FAQ ══════════════════════════════════════════════════════════ -->
+<div class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="reveal">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Questions &amp; answers</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Does Foliow require an internet connection?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">The app itself runs 100% offline. The local proxy (folio_proxy.py) needs internet access to fetch live prices from Yahoo Finance and Stooq. Your portfolio data never leaves your machine.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What markets are supported?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">US stocks and ETFs (via Finnhub API — free key), European equities (.PA, .AS, .DE, .MI, .MC, .L and more), crypto (BTC-USD, ETH-EUR…), gold/silver ETCs, and structured products. Essentially any ticker available on Yahoo Finance.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do I need a Finnhub or API key?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Not strictly required. Foliow works without any API key using Stooq (EOD prices) for all markets. For real-time US quotes, a free Finnhub key (finnhub.io) takes 2 minutes to set up. The AI Plan tab requires your own Claude API key (Anthropic).</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do I need Python installed?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Yes — Python 3.8 or later. No additional packages needed; the proxy uses only the Python standard library. If you're on Windows, Python 3.11 from python.org works perfectly.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is my financial data private?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Completely. Foliow stores everything in your browser's localStorage — no account, no server, no cloud sync. The proxy only fetches anonymous price data. Your positions, quantities, and P&L are never transmitted anywhere.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I use it on multiple computers?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Yes. Your license is personal and unlimited — install on as many devices as you like. Portfolio export/import (JSON) lets you sync data between machines manually.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What is your refund policy?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">14-day money-back guarantee, no questions asked. Contact us at the email provided after purchase and we'll refund you within 24 hours.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ BOTTOM CTA ════════════════════════════════════════════════════ -->
+<div class="cta-section">
+  <div class="cta-inner reveal">
+    <h2 class="cta-title">Stop guessing.<br><em>Follow your portfolio.</em></h2>
+    <p class="cta-sub">Join investors who make data-driven decisions with live signals, not gut feeling. One file. One payment. Yours forever.</p>
+    <div class="cta-actions">
+      <a href="#pricing" class="btn-cta-main">Get Foliow now →</a>
+      <a href="#faq" class="btn-cta-ghost">Read the FAQ</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo" style="color:rgba(255,255,255,0.6)">Folio<span>w</span></div>
+      <div class="footer-tagline">The intelligent portfolio decision engine. Offline, private, no subscription.</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-title">Product</div>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Support</div>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:support@foliow.app">Contact</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Legal</div>
+        <a href="https://foliow.app/#disclaimer">Disclaimer</a>
+        <a href="https://foliow.app/privacy.html">Privacy policy</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Foliow. All rights reserved.</div>
+    <div class="footer-copy">Made with precision for serious investors.</div>
+  </div>
+  <div class="disclaimer-box" id="disclaimer" style="padding:24px 40px 0;max-width:1160px;margin:0 auto">
+    ⚠ <strong>Legal disclaimer</strong> — Foliow is provided for informational and educational purposes only. 
+    It does not constitute financial, investment, tax or legal advice. Trading signals and AI recommendations 
+    are generated algorithmically and do not account for your personal financial situation. 
+    Past performance is not indicative of future results. Always consult a qualified financial advisor 
+    before making investment decisions. The authors accept no liability for financial losses incurred 
+    through use of this tool. Foliow is not regulated by the AMF, FCA, SEC or any other financial authority.
+  </div>
+</footer>
+
+<script>
+// ── LIVE MOCKUP ANIMATION ─────────────────────────────────────────
+const mockPrices = [
+  { id:'mr1', price:'$ 213.42', delta:'+14.2%', dir:'pos' },
+  { id:'mr2', price:'€ 412.80', delta:'+22.6%', dir:'pos' },
+  { id:'mr3', price:'$ 118.55', delta:'+38.1%', dir:'pos' },
+  { id:'mr4', price:'$ 87,210', delta:'-4.3%',  dir:'neg' },
+];
+let tickIdx = 0;
+function tickPrice() {
+  const row = mockPrices[tickIdx % mockPrices.length];
+  const el  = document.getElementById(row.id);
+  if (el) {
+    el.classList.remove('price-flash');
+    void el.offsetWidth; // force reflow
+    el.classList.add('price-flash');
+  }
+  tickIdx++;
+}
+setInterval(tickPrice, 1800);
+
+// KPI counter animation
+function animateKPI(id, target, prefix='€ ', decimals=0) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let start = 0, duration = 1400, startTime = null;
+  const step = (ts) => {
+    if (!startTime) startTime = ts;
+    const progress = Math.min((ts - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = start + (target - start) * eased;
+    el.textContent = prefix + val.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+setTimeout(() => {
+  animateKPI('mkv1', 48320);
+}, 600);
+
+// ── FAQ TOGGLE ────────────────────────────────────────────────────
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── HERO LEFT REVEAL ──────────────────────────────────────────────
+document.querySelector('.hero-left')?.classList.add('visible');
+
+// ── PLAN TOGGLE ──────────────────────────────────────────────────
+function showAnnual(show) {
+  const btnOnce   = document.getElementById('btnOnce');
+  const btnAnnual = document.getElementById('btnAnnual');
+  if (show) {
+    btnAnnual.style.background = 'var(--ink)';
+    btnAnnual.style.color = '#fff';
+    btnOnce.style.background = 'none';
+    btnOnce.style.color = 'var(--ink3)';
+    // Scroll to comparison table if exists
+  } else {
+    btnOnce.style.background = 'var(--ink)';
+    btnOnce.style.color = '#fff';
+    btnAnnual.style.background = 'none';
+    btnAnnual.style.color = 'var(--ink3)';
+  }
+}
+
+// Stripe links configured ✓
+</script>
+
+</body>
+</html>

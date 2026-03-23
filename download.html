@@ -203,22 +203,40 @@ body {
 
     <!-- Downloads -->
     <div class="dl-grid">
-      <a href="decision-engine.html" download="decision-engine.html" class="dl-btn primary">
-        <div class="dl-icon app">📊</div>
+      <!-- Option 1 : Installeur Windows -->
+      <a href="https://github.com/Fred78750/foliow-download/releases/download/v1.0.0/FoliowSetup.exe" class="dl-btn primary">
+        <div class="dl-icon app">🖥️</div>
         <div class="dl-info">
-          <div class="dl-name">decision-engine.html</div>
-          <div class="dl-desc">The main app — open in any browser</div>
+          <div class="dl-name">FoliowSetup.exe</div>
+          <div class="dl-desc">Windows installer — recommended · double-click to install</div>
         </div>
-        <div class="dl-badge">Required</div>
+        <div class="dl-badge">Recommended</div>
       </a>
-      <a href="folio_proxy.py" download="folio_proxy.py" class="dl-btn">
-        <div class="dl-icon py">🐍</div>
-        <div class="dl-info">
-          <div class="dl-name">folio_proxy.py</div>
-          <div class="dl-desc">Local proxy — enables live prices for EU stocks</div>
+    </div>
+
+    <!-- Séparateur option avancée -->
+    <div style="margin:20px 0;text-align:center">
+      <details style="font-size:11px;color:var(--ink3)">
+        <summary style="cursor:pointer;color:var(--gold)">Advanced — manual installation (no installer)</summary>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;text-align:left">
+          <a href="decision-engine.html" download="decision-engine.html" class="dl-btn">
+            <div class="dl-icon app">📊</div>
+            <div class="dl-info">
+              <div class="dl-name">decision-engine.html</div>
+              <div class="dl-desc">The main app — open in any browser</div>
+            </div>
+            <div class="dl-badge">Required</div>
+          </a>
+          <a href="folio_proxy.py" download="folio_proxy.py" class="dl-btn">
+            <div class="dl-icon py">🐍</div>
+            <div class="dl-info">
+              <div class="dl-name">folio_proxy.py</div>
+              <div class="dl-desc">Local proxy — requires Python 3.8+</div>
+            </div>
+            <div class="dl-badge">Required</div>
+          </a>
         </div>
-        <div class="dl-badge">Required</div>
-      </a>
+      </details>
     </div>
 
     <!-- Steps -->
@@ -227,22 +245,21 @@ body {
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-text">
-          Save both files in the <strong>same folder</strong> on your computer.
-          <br>e.g. <span class="step-code">Documents/Foliow/</span>
+          Double-click <strong>FoliowSetup.exe</strong> and follow the installation wizard.
+          <br><span style="font-size:10px;opacity:0.7">Windows 10/11 64-bit required</span>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-text">
-          Open a terminal in that folder and run:<br>
-          <span class="step-code">python folio_proxy.py</span><br>
-          <span style="font-size:10px;opacity:0.7">Requires Python 3.8+ — leave the terminal open</span>
+          Launch <strong>Foliow</strong> from the desktop shortcut or Start menu.
+          <br><span style="font-size:10px;opacity:0.7">The proxy starts automatically — no terminal needed</span>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-text">
-          Open <strong>decision-engine.html</strong> in your browser, click <strong>↺ Refresh</strong> and you're live.
+          Foliow opens in your browser automatically. Click <strong>↺ Refresh</strong> to load live prices.
         </div>
       </div>
     </div>
